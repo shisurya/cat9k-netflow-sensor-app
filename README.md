@@ -36,3 +36,11 @@ INFO exited: nfsen_start (exit status 0; expected)
 ```
 
 Point your web browser at http://localhost:81 You will see the nfsen home page.
+
+To generate and export mock flow data to the nfsen application, run the netflow generator application:
+
+```bash
+docker run -d -it --rm networkstatic/nflow-generator -t <ip> -p <port>
+```
+
+
