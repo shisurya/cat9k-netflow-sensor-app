@@ -1,7 +1,7 @@
 # Cisco Catalyst 9K Netflow Sensor Application
 A docker container based Netflow collector and web display application for Cisco Catalyst 9K switch. The application is built on [NFSEN](http://nfsen.sourceforge.net/) and [NFDUMP](http://nfdump.sourceforge.net/) which are documented and hosted at [SourceForge.net](https://sourceforge.net/)
 
-# Building the Application
+## Building the Application
 Prerequisites:
 * Docker installed
 * Internet connection
