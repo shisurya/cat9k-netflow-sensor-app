@@ -6,4 +6,10 @@ Prerequisites:
 * Docker installed
 * Internet connection
 
-The application can be built using the docker build command:
+The application can be built using the [docker build](https://docs.docker.com/engine/reference/commandline/build/) command:
+
+```bash
+cd .\cat9k-netflow-sensor-app-master\
+```
+
+
