@@ -113,8 +113,6 @@ RUN sed -i.bak -e'/<\/VirtualHost>/ i \
 WORKDIR /
 # Add startup script for nfsen profile init
 ADD setup-files/start.sh /data/start.sh
-# flow-generator binary for testing
-ADD setup-files/flow-generator /data/flow-generator
-ADD	setup-files/supervisord.conf /etc/supervisord.conf
+ADD setup-files/supervisord.conf /etc/supervisord.conf
 
 ENTRYPOINT ["/usr/bin/supervisord"]
