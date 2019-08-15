@@ -54,8 +54,3 @@ echo -e "${LYELLOW} *Note*:${RESTORE} Above errors ${LYELLOW}ERR Channel info fi
 echo "${GREEN}### Done! ${RESTORE} point your browser at http://<ip_address>>/nfsen/nfsen.php and change"
 echo -e "${GREEN}### ${RESTORE} the profile to ${RED}zone1_profile${RESTORE} to view the example predefined filters"
 echo -e "${GREEN}### ${RESTORE} Run 'nfsen status' to view daemon status and details and 'netstat -lntu' to view listening ports."
-echo -e "${BLUE}### ${RESTORE} If you want to generate some test flows, I wrote a quick flow generator app that is in the /data/ directory"
-echo -e "${BLUE}### ${RESTORE} ${RED}flow-generator  -t 127.0.0.1 -p 9995${RESTORE}"
-echo -e "If you let it run for around 15-20 minutes or so and you should see flows being generated in the web ui"
-echo -e ''
-echo -e "${BLUE}### ${RESTORE} 'You can also put any other collector target address you want to test against. The generated protocols match the nfsen sample filter above"
