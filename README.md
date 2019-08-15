@@ -43,4 +43,6 @@ To generate and export mock flow data to the nfsen application, run the netflow 
 docker run -d -it --rm networkstatic/nflow-generator -t <ip> -p <port>
 ```
 
+## Configuring the Switch
+[Application hosting](https://wiki.cisco.com/display/C3A/KR+Port+Trunk+and+VLAN+Support#KRPortTrunkandVLANSupport-2.3App-hosting) and [Flexible Netflow](https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-5/configuration_guide/nmgmt/b_165_nmgmt_9300_cg/b_165_nmgmt_9300_cg_chapter_01000.html) need to be enabled and configured on the switch. In addition, the switch management interface also needs to be configured.
 
