@@ -40,9 +40,50 @@ Point your web browser at http://localhost:81 You will see the nfsen home page.
 To generate and export mock flow data to the nfsen application, run the netflow generator application:
 
 ```bash
-docker run -d -it --rm networkstatic/nflow-generator -t <ip> -p <port>
+docker run -d -it --rm networkstatic/nflow-generator -t <ip> -p 2055
 ```
 
 ## Configuring the Switch
 [Application hosting](https://wiki.cisco.com/display/C3A/KR+Port+Trunk+and+VLAN+Support#KRPortTrunkandVLANSupport-2.3App-hosting) and [Flexible Netflow](https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-5/configuration_guide/nmgmt/b_165_nmgmt_9300_cg/b_165_nmgmt_9300_cg_chapter_01000.html) need to be enabled and configured on the switch. In addition, the switch management interface also needs to be configured.
 
+Configuring Flexible Netflow:
+
+The details about how to configure the switch to export netflow records can be found [here](https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-5/configuration_guide/nmgmt/b_165_nmgmt_9300_cg/b_165_nmgmt_9300_cg_chapter_01000.html). Following is an example:
+
+1. Creating a flow record:
+
+```bash
+flow record record1
+ match ipv4 source address
+ match ipv4 destination address
+ match ipv4 protocol
+ match transport source-port
+ match transport destination-port
+```
+2. Creating a flow exporter:
+ 
+ ```bash
+flow exporter export1
+ destination <app_ip_address>
+ transport udp 2055
+```
+
+3. Creating a flow monitor:
+
+ ```bash
+flow monitor monitor1
+ exporter export1
+ cache timeout inactive 350
+ cache timeout active 350
+ record record1
+```
+
+4. Applying the flow monitor to interfaces:
+
+```bash
+interface GigabitEthernet1/0/1
+ ip flow monitor monitor1 input
+ 
+interface GigabitEthernet1/0/2
+ ip flow monitor monitor1 input
+```
