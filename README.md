@@ -26,7 +26,7 @@ nfsen-app                       latest              982603daad1d        50 secon
 For testing, the application can be run locally on the same machine where it is built. Use [docker run](https://docs.docker.com/engine/reference/commandline/run/) command to run the container:
 
 ```bash
-docker run -p 81:80 -p 2055:2055/udp -p 4739:4739/udp -p 6343:6343/udp -p 9996:9996/udp  -i -t --name nfsen_app_run nfsen-app
+docker run -p 81:80 -p 2055:2055/udp -i -t --name nfsen_app_run nfsen-app
 ```
 
 If the Docker startup is successful, it will print a large amount of debugging information, which culminates with:
