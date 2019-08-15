@@ -165,5 +165,5 @@ To access the output webpage from a web browser on the local machine, use ssh fo
 ```bash
 ssh -L 127.0.0.1:9999:<docker_app_ip>:80 username@server_ip
 ```
-
+Point your web browser at http://localhost:9999 You will see the nfsen home page.
 
