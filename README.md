@@ -52,7 +52,7 @@ The details about how to configure the switch to export netflow records can be f
 
 1. Creating a flow record:
 
-```bash
+```
 flow record record1
  match ipv4 source address
  match ipv4 destination address
@@ -64,18 +64,18 @@ flow record record1
  
  ```bash
 flow exporter export1
- destination <app_ip_address>
- transport udp 2055
+  destination <app_ip_address>
+  transport udp 2055
 ```
 
 3. Creating a flow monitor:
 
  ```bash
 flow monitor monitor1
- exporter export1
- cache timeout inactive 350
- cache timeout active 350
- record record1
+  exporter export1
+  cache timeout inactive 350
+  cache timeout active 350
+  record record1
 ```
 
 4. Applying the flow monitor to interfaces:
