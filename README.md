@@ -52,6 +52,8 @@ The details about how to configure the switch to export netflow records can be f
 
 1. Creating a flow record:
 
+The flow record is a description of the elements present in the Netflow template. It offers the administrator options on what they want to see in the flow data.
+
 ```
 flow record record1
  match ipv4 source address
@@ -62,6 +64,8 @@ flow record record1
 ```
 2. Creating a flow exporter:
  
+The exporter defines how the flows process out of the device to the collector, and any options relative to that export. 
+
  ```bash
 flow exporter export1
   destination <app_ip_address>
@@ -69,6 +73,8 @@ flow exporter export1
 ```
 
 3. Creating a flow monitor:
+
+The flow monitor ties together the flow record and the flow exporter. 
 
  ```bash
 flow monitor monitor1
@@ -80,10 +86,12 @@ flow monitor monitor1
 
 4. Applying the flow monitor to interfaces:
 
+In this step, we get into interface configuration mode, and apply the flow monitor in input or output mode, or both.
+
 ```bash
 interface GigabitEthernet1/0/1
  ip flow monitor monitor1 input
  
 interface GigabitEthernet1/0/2
- ip flow monitor monitor1 input
+ ip flow monitor monitor1 output
 ```
