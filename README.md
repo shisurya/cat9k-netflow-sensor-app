@@ -44,11 +44,22 @@ docker run -d -it --rm networkstatic/nflow-generator -t <ip> -p 2055
 ```
 
 ## Configuring the Switch
-[Application hosting](https://wiki.cisco.com/display/C3A/KR+Port+Trunk+and+VLAN+Support#KRPortTrunkandVLANSupport-2.3App-hosting) and [Flexible Netflow](https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-5/configuration_guide/nmgmt/b_165_nmgmt_9300_cg/b_165_nmgmt_9300_cg_chapter_01000.html) need to be enabled and configured on the switch. In addition, the switch management interface also needs to be configured.
+[Application hosting](https://wiki.cisco.com/display/C3A/KR+Port+Trunk+and+VLAN+Support#KRPortTrunkandVLANSupport-2.3App-hosting) and [Flexible Netflow](https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-5/configuration_guide/nmgmt/b_165_nmgmt_9300_cg/b_165_nmgmt_9300_cg_chapter_01000.html) need to be enabled and configured on the switch. For application hosting to work, a Cisco USB SSD drive must be plugged into the back-panel USB port of the switch. In addition, the switch management interface also needs to be configured.
+
+Configuring Application Hosting:
+
+The details about how to configure application hosting on the switch can be found [here](https://wiki.cisco.com/display/C3A/KR+Port+Trunk+and+VLAN+Support#KRPortTrunkandVLANSupport-2.3App-hosting).
+
+```
+app-hosting appid nfsen_app
+ app-vnic AppGigabitEthernet trunk
+  guest-interface 0
+ app-resource docker
+```
 
 Configuring Flexible Netflow:
 
-The details about how to configure the switch to export netflow records can be found [here](https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-5/configuration_guide/nmgmt/b_165_nmgmt_9300_cg/b_165_nmgmt_9300_cg_chapter_01000.html). Following is an example:
+The details about how to configure the switch to export netflow records can be found [here](https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-5/configuration_guide/nmgmt/b_165_nmgmt_9300_cg/b_165_nmgmt_9300_cg_chapter_01000.html).
 
 1. Creating a flow record:
 
@@ -62,6 +73,7 @@ flow record record1
  match transport source-port
  match transport destination-port
 ```
+
 2. Creating a flow exporter:
  
 The exporter defines how the flows process out of the device to the collector, and any options relative to that export. 
@@ -94,4 +106,56 @@ interface GigabitEthernet1/0/1
  
 interface GigabitEthernet1/0/2
  ip flow monitor monitor1 output
+```
+
+Configuring the management interface (GigabitEthernet0/0):
+
+```
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ ip address <mgmt_ip_address> <mgmt_ip_netmask>
+ negotiation auto
+```
+
+## Deploying the application to the switch
+
+1. Save the docker application image as a tarball:
+
+```
+docker save -o nfsen_app.tar nfsen-app
+```
+
+2. First copy the application tarball to the tftp server. Then, copy the application tarball to the USB SSD inserted into the switch:
+
+```
+switch#copy tftp://<tftp_server_ip_address>/nfsen_app.tar flash:
+```
+
+3. Install and activate the application on the switch. The 'activate' step allocates the necessary system resources to the application.
+
+```
+switch#app-hosting install appid nfsen_app package flash:nfsen_app.tar
+Installing package 'flash:nfsen_app.tar' for 'nfsen_app'. Use 'show app-hosting list' for progress.
+
+switch#show app-hosting list                                                      
+App id                                   State
+---------------------------------------------------------
+nfsen_app                               DEPLOYED
+
+switch#app-hosting activate appid nfsen_app
+nfsen_app activated successfully
+Current state is: ACTIVATED
+```
+
+4. Run the application on the switch:
+
+```
+switch#app-hosting start appid nfsen_app
+nfsen_app started successfully
+Current state is: RUNNING
+
+switch#show app-hosting list                    
+App id                                   State
+---------------------------------------------------------
+nfsen_app                                RUNNING
 ```
