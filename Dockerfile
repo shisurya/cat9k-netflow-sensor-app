@@ -76,7 +76,8 @@ RUN wget http://iweb.dl.sourceforge.net/project/nfsen/stable/nfsen-${NFSEN_VERSI
     && sed -i 's/"www";/"www-data";/g' nfsen-${NFSEN_VERSION}/etc/nfsen-dist.conf \
 # Example how to fill in any flow source you want using | as a delimiter. Sort of long and gross though.
 # Modify the pre-defined NetFlow v5/v9 line matching the regex 'upstream1'
-    && sed -i  "s|'netflow-global'  => { 'port' => '2055', 'col' => '#0000ff', 'type' => 'netflow' },|g" \
+    && sed -i  "s|'upstream1'    => { 'port' => '9995', 'col' => '#0000ff', 'type' => 'netflow' },| \
+        'netflow-global'  => { 'port' => '2055', 'col' => '#0000ff', 'type' => 'netflow' },|g" \
          nfsen-${NFSEN_VERSION}/etc/nfsen-dist.conf \
     && cat nfsen-${NFSEN_VERSION}/etc/nfsen-dist.conf
 
