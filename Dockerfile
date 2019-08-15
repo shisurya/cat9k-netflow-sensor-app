@@ -40,12 +40,6 @@ RUN apt-get clean
 EXPOSE 80
 # NetFlow
 EXPOSE 2055
-# IPFIX
-EXPOSE 4739
-# sFlow
-EXPOSE 6343
-# nfsen src ip src node mappings per example
-EXPOSE 9996
 
 # mk some dirs
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/supervisor
@@ -82,15 +76,8 @@ RUN wget http://iweb.dl.sourceforge.net/project/nfsen/stable/nfsen-${NFSEN_VERSI
     && sed -i 's/"www";/"www-data";/g' nfsen-${NFSEN_VERSION}/etc/nfsen-dist.conf \
 # Example how to fill in any flow source you want using | as a delimiter. Sort of long and gross though.
 # Modify the pre-defined NetFlow v5/v9 line matching the regex 'upstream1'
-    && sed -i  "s|'upstream1'    => { 'port' => '9995', 'col' => '#0000ff', 'type' => 'netflow' },| \
-        'netflow-global'  => { 'port' => '2055', 'col' => '#0000ff', 'type' => 'netflow' },|g" \
+    && sed -i  "s|'netflow-global'  => { 'port' => '2055', 'col' => '#0000ff', 'type' => 'netflow' },|g" \
          nfsen-${NFSEN_VERSION}/etc/nfsen-dist.conf \
-# Bind port 6343 and an entry for sFlow collection
-    && sed  -i "/%sources/a \
-    'sflow-global'  => { 'port' => '6343', 'col' => '#0000ff', 'type' => 'sflow' }," nfsen-${NFSEN_VERSION}/etc/nfsen-dist.conf \
-# Bind port 4739 and an entry for IPFIX collection. E.g. NetFlow v10
-    && sed  -i "/%sources/a \
-    'ipfix-global'  => { 'port' => '4739', 'col' => '#0000ff', 'type' => 'netflow' }," nfsen-${NFSEN_VERSION}/etc/nfsen-dist.conf \
     && cat nfsen-${NFSEN_VERSION}/etc/nfsen-dist.conf
 
 # Add an account for NFSen as a member of the apache group
