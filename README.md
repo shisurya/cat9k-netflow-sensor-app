@@ -80,7 +80,7 @@ The exporter defines how the flows process out of the device to the collector, a
 
  ```bash
 flow exporter export1
-  destination <app_ip_address>
+  destination <docker_app_ip>
   transport udp 2055
 ```
 
@@ -159,3 +159,11 @@ App id                                   State
 ---------------------------------------------------------
 nfsen_app                                RUNNING
 ```
+
+To access the output webpage from a web browser on the local machine, use ssh forwarding:
+
+```bash
+ssh -L 127.0.0.1:9999:<docker_app_ip>:80 username@server_ip
+```
+
+
