@@ -35,7 +35,7 @@ If the Docker startup is successful, it will print a large amount of debugging i
 INFO exited: nfsen_start (exit status 0; expected)
 ```
 
-Point your web browser at http://localhost:81 You will see the nfsen home page.
+Point your web browser at http://localhost:81 You will see the nfsen home page. Change the profile from live to zone1_profile to view live graphing of data in the profile that is packaged as part of the Docker image.
 
 To generate and export mock flow data to the nfsen application, run the netflow generator application:
 
@@ -165,5 +165,5 @@ To access the output webpage from a web browser on the local machine, use ssh fo
 ```bash
 ssh -L 127.0.0.1:9999:<docker_app_ip>:80 username@server_ip
 ```
-Point your web browser at http://localhost:9999 You will see the nfsen home page.
+Point your web browser at http://localhost:9999 You will see the nfsen home page. Change the profile from live to zone1_profile.
 
